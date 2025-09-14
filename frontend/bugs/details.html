@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bug Details - BugSage</title>
+    <link rel="stylesheet" href="../css/globals.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../css/bugs.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <div class="brand-logo">
+                    <i class="fas fa-bug"></i>
+                </div>
+                <span class="brand-text">BugSage</span>
+            </div>
+            
+            <!-- Desktop Navigation -->
+            <div class="nav-links desktop-nav">
+                <a href="../dashboard/index.html" class="nav-link">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="list.html" class="nav-link active">
+                    <i class="fas fa-bug"></i>
+                    <span>Bugs</span>
+                </a>
+                <a href="../kanban/index.html" class="nav-link">
+                    <i class="fas fa-columns"></i>
+                    <span>Kanban</span>
+                </a>
+                <a href="../reports/index.html" class="nav-link">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Reports</span>
+                </a>
+                <a href="../admin/index.html" class="nav-link admin-only" style="display: none;">
+                    <i class="fas fa-users"></i>
+                    <span>Admin</span>
+                </a>
+            </div>
+            
+            <!-- User Menu -->
+            <div class="nav-user">
+                <div class="user-info">
+                    <span class="user-name" id="userName">Loading...</span>
+                    <span class="user-role" id="userRole">User</span>
+                </div>
+                <div class="user-menu">
+                    <button class="user-menu-btn" onclick="toggleUserMenu()">
+                        <i class="fas fa-user-circle"></i>
+                    </button>
+                    <div class="user-dropdown" id="userDropdown">
+                        <a href="../profile/index.html" class="dropdown-item">
+                            <i class="fas fa-user"></i>
+                            Profile
+                        </a>
+                        <a href="../settings/index.html" class="dropdown-item">
+                            <i class="fas fa-cog"></i>
+                            Settings
+                        </a>
+                        <hr class="dropdown-divider">
+                        <a href="#" class="dropdown-item" onclick="logout()">
+                            <i class="fas fa-sign-out-alt"></i>
+                            Logout
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Mobile Menu Button -->
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+        
+        <!-- Mobile Navigation -->
+        <div class="mobile-nav" id="mobileNav">
+            <a href="../dashboard/index.html" class="mobile-nav-link">
+                <i class="fas fa-tachometer-alt"></i>
+                Dashboard
+            </a>
+            <a href="list.html" class="mobile-nav-link active">
+                <i class="fas fa-bug"></i>
+                Bugs
+            </a>
+            <a href="../kanban/index.html" class="mobile-nav-link">
+                <i class="fas fa-columns"></i>
+                Kanban
+            </a>
+            <a href="../reports/index.html" class="mobile-nav-link">
+                <i class="fas fa-chart-bar"></i>
+                Reports
+            </a>
+            <a href="../admin/index.html" class="mobile-nav-link admin-only" style="display: none;">
+                <i class="fas fa-users"></i>
+                Admin
+            </a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Loading State -->
+            <div id="loadingState" class="loading-state">
+                <i class="fas fa-spinner fa-spin"></i>
+                Loading bug details...
+            </div>
+
+            <!-- Bug Details Content -->
+            <div id="bugContent" style="display: none;">
+                <!-- Bug Header -->
+                <div class="bug-header-section">
+                    <div class="bug-header-main">
+                        <div class="bug-breadcrumb">
+                            <a href="list.html" class="breadcrumb-link">
+                                <i class="fas fa-arrow-left"></i>
+                                Back to Bugs
+                            </a>
+                        </div>
+                        <div class="bug-title-section">
+                            <h1 class="bug-title" id="bugTitle">Loading...</h1>
+                            <div class="bug-meta">
+                                <span class="bug-id">#<span id="bugId">0</span></span>
+                                <span class="bug-created">Created <span id="bugCreated">-</span></span>
+                                <span class="bug-reporter">by <span id="bugReporter">-</span></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bug-actions">
+                        <button class="btn btn-outline" onclick="editBug()">
+                            <i class="fas fa-edit"></i>
+                            Edit
+                        </button>
+                        <div class="status-dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" onclick="toggleStatusDropdown()">
+                                <span id="currentStatus">Status</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="dropdown-menu" id="statusDropdown">
+                                <button class="dropdown-item" onclick="updateStatus('New')">
+                                    <span class="status-indicator bg-blue"></span>
+                                    New
+                                </button>
+                                <button class="dropdown-item" onclick="updateStatus('In Progress')">
+                                    <span class="status-indicator bg-purple"></span>
+                                    In Progress
+                                </button>
+                                <button class="dropdown-item" onclick="updateStatus('Resolved')">
+                                    <span class="status-indicator bg-green"></span>
+                                    Resolved
+                                </button>
+                                <button class="dropdown-item" onclick="updateStatus('Closed')">
+                                    <span class="status-indicator bg-gray"></span>
+                                    Closed
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bug Content Grid -->
+                <div class="bug-content-grid">
+                    <!-- Main Content -->
+                    <div class="bug-main-content">
+                        <!-- Bug Details Card -->
+                        <div class="bug-details-card">
+                            <div class="card-header">
+                                <h3>Description</h3>
+                            </div>
+                            <div class="card-content">
+                                <div class="bug-description" id="bugDescription">
+                                    Loading description...
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Steps to Reproduce -->
+                        <div class="bug-details-card" id="stepsCard" style="display: none;">
+                            <div class="card-header">
+                                <h3>Steps to Reproduce</h3>
+                            </div>
+                            <div class="card-content">
+                                <div class="bug-steps" id="bugSteps"></div>
+                            </div>
+                        </div>
+
+                        <!-- Expected Behavior -->
+                        <div class="bug-details-card" id="expectedCard" style="display: none;">
+                            <div class="card-header">
+                                <h3>Expected Behavior</h3>
+                            </div>
+                            <div class="card-content">
+                                <div class="bug-expected" id="bugExpected"></div>
+                            </div>
+                        </div>
+
+                        <!-- Attachments -->
+                        <div class="bug-details-card" id="attachmentsCard" style="display: none;">
+                            <div class="card-header">
+                                <h3>Attachments</h3>
+                            </div>
+                            <div class="card-content">
+                                <div class="attachments-grid" id="attachmentsList"></div>
+                            </div>
+                        </div>
+
+                        <!-- Comments Section -->
+                        <div class="bug-details-card">
+                            <div class="card-header">
+                                <h3>Comments</h3>
+                                <span class="comment-count" id="commentCount">0</span>
+                            </div>
+                            <div class="card-content">
+                                <!-- Add Comment Form -->
+                                <div class="add-comment-form">
+                                    <textarea 
+                                        id="newComment" 
+                                        class="comment-textarea" 
+                                        placeholder="Add a comment..."
+                                        rows="3"
+                                    ></textarea>
+                                    <div class="comment-actions">
+                                        <button class="btn btn-primary" onclick="addComment()">
+                                            <i class="fas fa-comment"></i>
+                                            Add Comment
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- Comments List -->
+                                <div class="comments-list" id="commentsList">
+                                    <div class="loading-state">
+                                        <i class="fas fa-spinner fa-spin"></i>
+                                        Loading comments...
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sidebar -->
+                    <div class="bug-sidebar">
+                        <!-- Bug Properties -->
+                        <div class="sidebar-card">
+                            <div class="card-header">
+                                <h3>Properties</h3>
+                            </div>
+                            <div class="card-content">
+                                <div class="property-list">
+                                    <div class="property-item">
+                                        <label>Status</label>
+                                        <div class="property-value">
+                                            <span class="badge" id="statusBadge">Loading...</span>
+                                        </div>
+                                    </div>
+                                    <div class="property-item">
+                                        <label>Priority</label>
+                                        <div class="property-value">
+                                            <span class="badge" id="priorityBadge">Loading...</span>
+                                        </div>
+                                    </div>
+                                    <div class="property-item">
+                                        <label>Assignee</label>
+                                        <div class="property-value" id="assigneeValue">
+                                            Loading...
+                                        </div>
+                                    </div>
+                                    <div class="property-item">
+                                        <label>Project</label>
+                                        <div class="property-value" id="projectValue">
+                                            Loading...
+                                        </div>
+                                    </div>
+                                    <div class="property-item">
+                                        <label>Environment</label>
+                                        <div class="property-value" id="environmentValue">
+                                            -
+                                        </div>
+                                    </div>
+                                    <div class="property-item">
+                                        <label>Browser/Device</label>
+                                        <div class="property-value" id="browserValue">
+                                            -
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Activity Timeline -->
+                        <div class="sidebar-card">
+                            <div class="card-header">
+                                <h3>Activity</h3>
+                            </div>
+                            <div class="card-content">
+                                <div class="activity-timeline" id="activityTimeline">
+                                    <div class="loading-state">
+                                        <i class="fas fa-spinner fa-spin"></i>
+                                        Loading activity...
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tags -->
+                        <div class="sidebar-card" id="tagsCard" style="display: none;">
+                            <div class="card-header">
+                                <h3>Tags</h3>
+                            </div>
+                            <div class="card-content">
+                                <div class="tags-list" id="tagsList"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="../js/main.js"></script>
+    <script src="../js/dashboard.js"></script>
+    <script src="../js/bug-details.js"></script>
+</body>
+</html>

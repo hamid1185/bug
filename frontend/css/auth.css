@@ -1,0 +1,217 @@
+/* Authentication specific styles */
+
+.auth-input {
+  background-color: var(--background);
+  border-color: var(--border);
+  color: var(--foreground);
+  transition: all 0.2s ease;
+}
+
+.auth-input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(234, 88, 12, 0.1);
+}
+
+.auth-input::placeholder {
+  color: var(--muted-foreground);
+}
+
+.auth-form {
+  position: relative;
+}
+
+.auth-form .error-message {
+  background-color: #fef2f2;
+  border-color: #fecaca;
+  color: #dc2626;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius);
+  margin-bottom: 1rem;
+  border: 1px solid;
+  font-size: 0.875rem;
+}
+
+.auth-form .success-message {
+  background-color: #f0fdf4;
+  border-color: #bbf7d0;
+  color: #16a34a;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius);
+  margin-bottom: 1rem;
+  border: 1px solid;
+  font-size: 0.875rem;
+}
+
+.auth-form .loading {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.auth-form .loading .btn {
+  position: relative;
+}
+
+.auth-form .loading .btn::after {
+  content: "";
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  margin: auto;
+  border: 2px solid transparent;
+  border-top-color: currentColor;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Password strength indicator */
+.password-strength {
+  margin-top: 0.5rem;
+}
+
+.password-strength-bar {
+  height: 4px;
+  background-color: var(--muted);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.password-strength-fill {
+  height: 100%;
+  transition: all 0.3s ease;
+  border-radius: 2px;
+}
+
+.password-strength-weak .password-strength-fill {
+  width: 33%;
+  background-color: #dc2626;
+}
+
+.password-strength-medium .password-strength-fill {
+  width: 66%;
+  background-color: #f59e0b;
+}
+
+.password-strength-strong .password-strength-fill {
+  width: 100%;
+  background-color: #16a34a;
+}
+
+.password-strength-text {
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+  color: var(--muted-foreground);
+}
+
+/* Form validation styles */
+.auth-input.invalid {
+  border-color: #dc2626;
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+}
+
+.auth-input.valid {
+  border-color: #16a34a;
+  box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.1);
+}
+
+.field-error {
+  color: #dc2626;
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+}
+
+.field-success {
+  color: #16a34a;
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .auth-form {
+    padding: 1rem;
+  }
+
+  .card {
+    margin: 1rem;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .auth-input {
+    background-color: var(--muted);
+    border-color: var(--border);
+    color: var(--foreground);
+  }
+
+  .auth-form .error-message {
+    background-color: rgba(220, 38, 38, 0.1);
+    border-color: rgba(220, 38, 38, 0.3);
+    color: #fca5a5;
+  }
+
+  .auth-form .success-message {
+    background-color: rgba(22, 163, 74, 0.1);
+    border-color: rgba(22, 163, 74, 0.3);
+    color: #86efac;
+  }
+}
+
+/* Animation for form transitions */
+.auth-form {
+  animation: fadeInUp 0.5s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Social login buttons (for future use) */
+.social-login {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.social-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background-color: var(--background);
+  color: var(--foreground);
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.social-btn:hover {
+  background-color: var(--muted);
+  border-color: var(--primary);
+}
+
+.social-btn i {
+  margin-right: 0.5rem;
+}

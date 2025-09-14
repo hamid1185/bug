@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reports - BugSage</title>
+    <link rel="stylesheet" href="../css/globals.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../css/reports.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <h2>BugSage</h2>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="../dashboard/index.html">Dashboard</a></li>
+                <li><a href="../bugs/list.html">All Bugs</a></li>
+                <li><a href="../bugs/create.html">Report Bug</a></li>
+                <li><a href="../kanban/index.html">Kanban Board</a></li>
+                <li><a href="../reports/index.html" class="active">Reports</a></li>
+                <li class="admin-only"><a href="../admin/index.html">Admin Panel</a></li>
+            </ul>
+            <div class="sidebar-footer">
+                <button onclick="logout()" class="logout-btn">Logout</button>
+            </div>
+        </nav>
+
+        <main class="main-content">
+            <header class="content-header">
+                <h1>Reports & Analytics</h1>
+                <div class="header-actions">
+                    <select id="timeRange" class="filter-select">
+                        <option value="7">Last 7 days</option>
+                        <option value="30" selected>Last 30 days</option>
+                        <option value="90">Last 90 days</option>
+                        <option value="365">Last year</option>
+                    </select>
+                    <button onclick="exportReport()" class="btn btn-secondary">Export PDF</button>
+                </div>
+            </header>
+
+            <div class="reports-grid">
+                <!-- Summary Cards -->
+                <div class="report-section">
+                    <h2>Summary</h2>
+                    <div class="summary-cards">
+                        <div class="summary-card">
+                            <div class="card-icon">🐛</div>
+                            <div class="card-content">
+                                <h3 id="totalBugs">0</h3>
+                                <p>Total Bugs</p>
+                            </div>
+                        </div>
+                        <div class="summary-card">
+                            <div class="card-icon">✅</div>
+                            <div class="card-content">
+                                <h3 id="resolvedBugs">0</h3>
+                                <p>Resolved</p>
+                            </div>
+                        </div>
+                        <div class="summary-card">
+                            <div class="card-icon">⏱️</div>
+                            <div class="card-content">
+                                <h3 id="avgResolutionTime">0</h3>
+                                <p>Avg Resolution (days)</p>
+                            </div>
+                        </div>
+                        <div class="summary-card">
+                            <div class="card-icon">🔥</div>
+                            <div class="card-content">
+                                <h3 id="criticalBugs">0</h3>
+                                <p>Critical Bugs</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts Section -->
+                <div class="report-section">
+                    <h2>Bug Trends</h2>
+                    <div class="chart-container">
+                        <canvas id="bugTrendChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="report-section">
+                    <h2>Status Distribution</h2>
+                    <div class="chart-container">
+                        <canvas id="statusChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="report-section">
+                    <h2>Priority Breakdown</h2>
+                    <div class="chart-container">
+                        <canvas id="priorityChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Top Issues -->
+                <div class="report-section full-width">
+                    <h2>Top Issues by Project</h2>
+                    <div class="table-container">
+                        <table class="report-table">
+                            <thead>
+                                <tr>
+                                    <th>Project</th>
+                                    <th>Total Bugs</th>
+                                    <th>Open</th>
+                                    <th>In Progress</th>
+                                    <th>Resolved</th>
+                                    <th>Resolution Rate</th>
+                                </tr>
+                            </thead>
+                            <tbody id="projectStatsTable">
+                                <!-- Data will be populated here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Team Performance -->
+                <div class="report-section full-width">
+                    <h2>Team Performance</h2>
+                    <div class="table-container">
+                        <table class="report-table">
+                            <thead>
+                                <tr>
+                                    <th>Developer</th>
+                                    <th>Assigned Bugs</th>
+                                    <th>Resolved</th>
+                                    <th>Avg Resolution Time</th>
+                                    <th>Performance Score</th>
+                                </tr>
+                            </thead>
+                            <tbody id="teamStatsTable">
+                                <!-- Data will be populated here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/dashboard.js"></script>
+    <script src="../js/reports.js"></script>
+</body>
+</html>

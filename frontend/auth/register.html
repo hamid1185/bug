@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account - BugSage</title>
+    <link rel="stylesheet" href="../css/globals.css">
+    <link rel="stylesheet" href="../css/auth.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="min-h-screen flex items-center justify-center bg-gradient-to-br from-orange-50 to-orange-100">
+    <div class="w-full max-w-md">
+        <!-- Logo and Header -->
+        <div class="text-center mb-8">
+            <div class="flex items-center justify-center space-x-2 mb-4">
+                <div class="w-12 h-12 rounded-lg flex items-center justify-center" style="background-color: var(--primary);">
+                    <i class="fas fa-bug text-white text-xl"></i>
+                </div>
+                <span class="text-2xl font-bold">BugSage</span>
+            </div>
+            <h1 class="text-3xl font-bold mb-2">Create Account</h1>
+            <p class="text-muted">Join thousands of developers using BugSage</p>
+        </div>
+
+        <!-- Registration Form -->
+        <div class="card bg-white shadow-lg">
+            <form class="auth-form space-y-6" data-endpoint="register">
+                <div>
+                    <label for="name" class="block text-sm font-semibold mb-2">Full Name</label>
+                    <input 
+                        type="text" 
+                        id="name" 
+                        name="name" 
+                        required 
+                        class="auth-input w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 transition-all"
+                        style="border-color: var(--border);"
+                        placeholder="Enter your full name"
+                    >
+                </div>
+
+                <div>
+                    <label for="email" class="block text-sm font-semibold mb-2">Email Address</label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        name="email" 
+                        required 
+                        class="auth-input w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 transition-all"
+                        style="border-color: var(--border);"
+                        placeholder="Enter your email"
+                    >
+                </div>
+                
+                <div>
+                    <label for="password" class="block text-sm font-semibold mb-2">Password</label>
+                    <div class="relative">
+                        <input 
+                            type="password" 
+                            id="password" 
+                            name="password" 
+                            required 
+                            minlength="6"
+                            class="auth-input w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 transition-all pr-12"
+                            style="border-color: var(--border);"
+                            placeholder="Create a password"
+                        >
+                        <button 
+                            type="button" 
+                            class="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted hover:text-primary"
+                            onclick="togglePassword('password')"
+                        >
+                            <i class="fas fa-eye" id="password-toggle"></i>
+                        </button>
+                    </div>
+                    <p class="text-xs text-muted mt-1">Minimum 6 characters</p>
+                </div>
+
+                <div>
+                    <label for="confirm_password" class="block text-sm font-semibold mb-2">Confirm Password</label>
+                    <div class="relative">
+                        <input 
+                            type="password" 
+                            id="confirm_password" 
+                            name="confirm_password" 
+                            required 
+                            class="auth-input w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 transition-all pr-12"
+                            style="border-color: var(--border);"
+                            placeholder="Confirm your password"
+                        >
+                        <button 
+                            type="button" 
+                            class="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted hover:text-primary"
+                            onclick="togglePassword('confirm_password')"
+                        >
+                            <i class="fas fa-eye" id="confirm_password-toggle"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div>
+                    <label for="role" class="block text-sm font-semibold mb-2">Role</label>
+                    <select 
+                        id="role" 
+                        name="role" 
+                        required 
+                        class="auth-input w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 transition-all"
+                        style="border-color: var(--border);"
+                    >
+                        <option value="">Select your role</option>
+                        <option value="Developer">Developer</option>
+                        <option value="Tester">Tester</option>
+                        <option value="Admin">Admin</option>
+                    </select>
+                </div>
+
+                <div class="flex items-start">
+                    <input type="checkbox" id="terms" name="terms" required class="mt-1 mr-3">
+                    <label for="terms" class="text-sm text-muted">
+                        I agree to the <a href="#" class="text-primary hover:underline">Terms of Service</a> 
+                        and <a href="#" class="text-primary hover:underline">Privacy Policy</a>
+                    </label>
+                </div>
+                
+                <button type="submit" class="btn btn-primary w-full py-3 text-lg">
+                    <i class="fas fa-user-plus mr-2"></i>
+                    Create Account
+                </button>
+            </form>
+            
+            <div class="mt-6 text-center">
+                <p class="text-sm text-muted">
+                    Already have an account? 
+                    <a href="login.html" class="text-primary hover:underline font-semibold">Sign in</a>
+                </p>
+            </div>
+        </div>
+
+        <!-- Back to Home -->
+        <div class="text-center mt-6">
+            <a href="../index.html" class="text-muted hover:text-primary transition-all">
+                <i class="fas fa-arrow-left mr-2"></i>
+                Back to Home
+            </a>
+        </div>
+    </div>
+
+    <script src="../js/main.js"></script>
+    <script src="../js/auth.js"></script>
+</body>
+</html>

@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - BugSage</title>
+    <link rel="stylesheet" href="../css/globals.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <div class="brand-logo">
+                    <i class="fas fa-bug"></i>
+                </div>
+                <span class="brand-text">BugSage</span>
+            </div>
+            
+            <!-- Desktop Navigation -->
+            <div class="nav-links desktop-nav">
+                <a href="index.html" class="nav-link active">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="../bugs/list.html" class="nav-link">
+                    <i class="fas fa-bug"></i>
+                    <span>Bugs</span>
+                </a>
+                <a href="../kanban/index.html" class="nav-link">
+                    <i class="fas fa-columns"></i>
+                    <span>Kanban</span>
+                </a>
+                <a href="../reports/index.html" class="nav-link">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Reports</span>
+                </a>
+                <a href="../admin/index.html" class="nav-link admin-only" style="display: none;">
+                    <i class="fas fa-users"></i>
+                    <span>Admin</span>
+                </a>
+            </div>
+            
+            <!-- User Menu -->
+            <div class="nav-user">
+                <div class="user-info">
+                    <span class="user-name" id="userName">Loading...</span>
+                    <span class="user-role" id="userRole">User</span>
+                </div>
+                <div class="user-menu">
+                    <button class="user-menu-btn" onclick="toggleUserMenu()">
+                        <i class="fas fa-user-circle"></i>
+                    </button>
+                    <div class="user-dropdown" id="userDropdown">
+                        <a href="../profile/index.html" class="dropdown-item">
+                            <i class="fas fa-user"></i>
+                            Profile
+                        </a>
+                        <a href="../settings/index.html" class="dropdown-item">
+                            <i class="fas fa-cog"></i>
+                            Settings
+                        </a>
+                        <hr class="dropdown-divider">
+                        <a href="#" class="dropdown-item" onclick="logout()">
+                            <i class="fas fa-sign-out-alt"></i>
+                            Logout
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Mobile Menu Button -->
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+        
+        <!-- Mobile Navigation -->
+        <div class="mobile-nav" id="mobileNav">
+            <a href="index.html" class="mobile-nav-link active">
+                <i class="fas fa-tachometer-alt"></i>
+                Dashboard
+            </a>
+            <a href="../bugs/list.html" class="mobile-nav-link">
+                <i class="fas fa-bug"></i>
+                Bugs
+            </a>
+            <a href="../kanban/index.html" class="mobile-nav-link">
+                <i class="fas fa-columns"></i>
+                Kanban
+            </a>
+            <a href="../reports/index.html" class="mobile-nav-link">
+                <i class="fas fa-chart-bar"></i>
+                Reports
+            </a>
+            <a href="../admin/index.html" class="mobile-nav-link admin-only" style="display: none;">
+                <i class="fas fa-users"></i>
+                Admin
+            </a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Welcome Header -->
+            <div class="welcome-header">
+                <div>
+                    <h1 class="page-title">Welcome back, <span id="welcomeName">User</span>!</h1>
+                    <p class="page-subtitle">Here's what's happening with your bugs today</p>
+                </div>
+                <div class="quick-actions">
+                    <a href="../bugs/create.html" class="btn btn-primary">
+                        <i class="fas fa-plus"></i>
+                        Report Bug
+                    </a>
+                </div>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon bg-blue">
+                        <i class="fas fa-bug"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-number" id="totalBugs">0</div>
+                        <div class="stat-label">Total Bugs</div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon bg-orange">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-number" id="activeBugs">0</div>
+                        <div class="stat-label">Active Bugs</div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon bg-red">
+                        <i class="fas fa-fire"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-number" id="criticalBugs">0</div>
+                        <div class="stat-label">Critical</div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon bg-green">
+                        <i class="fas fa-user-check"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-number" id="myBugs">0</div>
+                        <div class="stat-label">Assigned to Me</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions Grid -->
+            <div class="quick-actions-grid">
+                <a href="../bugs/create.html" class="action-card">
+                    <div class="action-icon bg-blue">
+                        <i class="fas fa-plus"></i>
+                    </div>
+                    <div class="action-content">
+                        <h3>Report Bug</h3>
+                        <p>Create a new bug report</p>
+                    </div>
+                </a>
+                
+                <a href="../bugs/list.html" class="action-card">
+                    <div class="action-icon bg-green">
+                        <i class="fas fa-list"></i>
+                    </div>
+                    <div class="action-content">
+                        <h3>View All Bugs</h3>
+                        <p>Browse and filter bugs</p>
+                    </div>
+                </a>
+                
+                <a href="../kanban/index.html" class="action-card">
+                    <div class="action-icon bg-purple">
+                        <i class="fas fa-columns"></i>
+                    </div>
+                    <div class="action-content">
+                        <h3>Kanban Board</h3>
+                        <p>Visual workflow management</p>
+                    </div>
+                </a>
+                
+                <a href="../reports/index.html" class="action-card">
+                    <div class="action-icon bg-yellow">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <div class="action-content">
+                        <h3>Analytics</h3>
+                        <p>View reports and insights</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Dashboard Grid -->
+            <div class="dashboard-grid">
+                <!-- My Assigned Bugs -->
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h3>My Assigned Bugs</h3>
+                        <a href="../bugs/list.html?assignee=me" class="view-all-link">View All</a>
+                    </div>
+                    <div class="card-content">
+                        <div id="myBugsList" class="bug-list">
+                            <div class="loading-state">
+                                <i class="fas fa-spinner fa-spin"></i>
+                                Loading bugs...
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h3>Recent Activity</h3>
+                        <a href="../activity/index.html" class="view-all-link">View All</a>
+                    </div>
+                    <div class="card-content">
+                        <div id="recentActivity" class="activity-list">
+                            <div class="loading-state">
+                                <i class="fas fa-spinner fa-spin"></i>
+                                Loading activity...
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bug Status Overview -->
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h3>Status Overview</h3>
+                    </div>
+                    <div class="card-content">
+                        <div class="status-overview">
+                            <div class="status-item">
+                                <div class="status-indicator bg-blue"></div>
+                                <span class="status-label">New</span>
+                                <span class="status-count" id="newBugsCount">0</span>
+                            </div>
+                            <div class="status-item">
+                                <div class="status-indicator bg-purple"></div>
+                                <span class="status-label">In Progress</span>
+                                <span class="status-count" id="inProgressCount">0</span>
+                            </div>
+                            <div class="status-item">
+                                <div class="status-indicator bg-green"></div>
+                                <span class="status-label">Resolved</span>
+                                <span class="status-count" id="resolvedCount">0</span>
+                            </div>
+                            <div class="status-item">
+                                <div class="status-indicator bg-gray"></div>
+                                <span class="status-label">Closed</span>
+                                <span class="status-count" id="closedCount">0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Priority Distribution -->
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h3>Priority Distribution</h3>
+                    </div>
+                    <div class="card-content">
+                        <div class="priority-chart">
+                            <canvas id="priorityChart" width="300" height="200"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Bugs Table -->
+            <div class="dashboard-card full-width">
+                <div class="card-header">
+                    <h3>Recent Bugs</h3>
+                    <a href="../bugs/list.html" class="view-all-link">View All</a>
+                </div>
+                <div class="card-content">
+                    <div class="table-container">
+                        <table class="bugs-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Title</th>
+                                    <th class="hidden-mobile">Priority</th>
+                                    <th class="hidden-mobile">Status</th>
+                                    <th class="hidden-mobile">Assignee</th>
+                                    <th class="hidden-mobile">Created</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recentBugsTable">
+                                <tr>
+                                    <td colspan="7" class="loading-state">
+                                        <i class="fas fa-spinner fa-spin"></i>
+                                        Loading recent bugs...
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="../js/main.js"></script>
+    <script src="../js/dashboard.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</body>
+</html>

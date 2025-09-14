@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kanban Board - BugSage</title>
+    <link rel="stylesheet" href="../css/globals.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../css/kanban.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <h2>BugSage</h2>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="../dashboard/index.html">Dashboard</a></li>
+                <li><a href="../bugs/list.html">All Bugs</a></li>
+                <li><a href="../bugs/create.html">Report Bug</a></li>
+                <li><a href="../kanban/index.html" class="active">Kanban Board</a></li>
+                <li><a href="../reports/index.html">Reports</a></li>
+                <li class="admin-only"><a href="../admin/index.html">Admin Panel</a></li>
+            </ul>
+            <div class="sidebar-footer">
+                <button onclick="logout()" class="logout-btn">Logout</button>
+            </div>
+        </nav>
+
+        <main class="main-content">
+            <header class="content-header">
+                <h1>Kanban Board</h1>
+                <div class="header-actions">
+                    <select id="projectFilter" class="filter-select">
+                        <option value="">All Projects</option>
+                    </select>
+                    <button onclick="refreshBoard()" class="btn btn-secondary">Refresh</button>
+                </div>
+            </header>
+
+            <div class="kanban-board" id="kanbanBoard">
+                <div class="kanban-column" data-status="open">
+                    <div class="column-header">
+                        <h3>Open</h3>
+                        <span class="bug-count" id="openCount">0</span>
+                    </div>
+                    <div class="column-content" id="openColumn">
+                        <!-- Bug cards will be populated here -->
+                    </div>
+                </div>
+
+                <div class="kanban-column" data-status="in-progress">
+                    <div class="column-header">
+                        <h3>In Progress</h3>
+                        <span class="bug-count" id="inProgressCount">0</span>
+                    </div>
+                    <div class="column-content" id="inProgressColumn">
+                        <!-- Bug cards will be populated here -->
+                    </div>
+                </div>
+
+                <div class="kanban-column" data-status="testing">
+                    <div class="column-header">
+                        <h3>Testing</h3>
+                        <span class="bug-count" id="testingCount">0</span>
+                    </div>
+                    <div class="column-content" id="testingColumn">
+                        <!-- Bug cards will be populated here -->
+                    </div>
+                </div>
+
+                <div class="kanban-column" data-status="closed">
+                    <div class="column-header">
+                        <h3>Closed</h3>
+                        <span class="bug-count" id="closedCount">0</span>
+                    </div>
+                    <div class="column-content" id="closedColumn">
+                        <!-- Bug cards will be populated here -->
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Bug Detail Modal -->
+    <div id="bugModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeBugModal()">&times;</span>
+            <div id="bugModalContent">
+                <!-- Bug details will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/auth.js"></script>
+    <script src="../js/dashboard.js"></script>
+    <script src="../js/kanban.js"></script>
+</body>
+</html>

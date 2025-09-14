@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report Bug - BugSage</title>
+    <link rel="stylesheet" href="../css/globals.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../css/bugs.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <div class="brand-logo">
+                    <i class="fas fa-bug"></i>
+                </div>
+                <span class="brand-text">BugSage</span>
+            </div>
+            
+            <!-- Desktop Navigation -->
+            <div class="nav-links desktop-nav">
+                <a href="../dashboard/index.html" class="nav-link">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="list.html" class="nav-link active">
+                    <i class="fas fa-bug"></i>
+                    <span>Bugs</span>
+                </a>
+                <a href="../kanban/index.html" class="nav-link">
+                    <i class="fas fa-columns"></i>
+                    <span>Kanban</span>
+                </a>
+                <a href="../reports/index.html" class="nav-link">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Reports</span>
+                </a>
+                <a href="../admin/index.html" class="nav-link admin-only" style="display: none;">
+                    <i class="fas fa-users"></i>
+                    <span>Admin</span>
+                </a>
+            </div>
+            
+            <!-- User Menu -->
+            <div class="nav-user">
+                <div class="user-info">
+                    <span class="user-name" id="userName">Loading...</span>
+                    <span class="user-role" id="userRole">User</span>
+                </div>
+                <div class="user-menu">
+                    <button class="user-menu-btn" onclick="toggleUserMenu()">
+                        <i class="fas fa-user-circle"></i>
+                    </button>
+                    <div class="user-dropdown" id="userDropdown">
+                        <a href="../profile/index.html" class="dropdown-item">
+                            <i class="fas fa-user"></i>
+                            Profile
+                        </a>
+                        <a href="../settings/index.html" class="dropdown-item">
+                            <i class="fas fa-cog"></i>
+                            Settings
+                        </a>
+                        <hr class="dropdown-divider">
+                        <a href="#" class="dropdown-item" onclick="logout()">
+                            <i class="fas fa-sign-out-alt"></i>
+                            Logout
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Mobile Menu Button -->
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+        
+        <!-- Mobile Navigation -->
+        <div class="mobile-nav" id="mobileNav">
+            <a href="../dashboard/index.html" class="mobile-nav-link">
+                <i class="fas fa-tachometer-alt"></i>
+                Dashboard
+            </a>
+            <a href="list.html" class="mobile-nav-link active">
+                <i class="fas fa-bug"></i>
+                Bugs
+            </a>
+            <a href="../kanban/index.html" class="mobile-nav-link">
+                <i class="fas fa-columns"></i>
+                Kanban
+            </a>
+            <a href="../reports/index.html" class="mobile-nav-link">
+                <i class="fas fa-chart-bar"></i>
+                Reports
+            </a>
+            <a href="../admin/index.html" class="mobile-nav-link admin-only" style="display: none;">
+                <i class="fas fa-users"></i>
+                Admin
+            </a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Page Header -->
+            <div class="page-header">
+                <div class="header-content">
+                    <h1 class="page-title">Report New Bug</h1>
+                    <p class="page-subtitle">Provide detailed information about the bug you've encountered</p>
+                </div>
+                <div class="header-actions">
+                    <a href="list.html" class="btn btn-outline">
+                        <i class="fas fa-arrow-left"></i>
+                        Back to List
+                    </a>
+                </div>
+            </div>
+
+            <!-- Duplicate Detection Alert -->
+            <div id="duplicateAlert" class="duplicate-alert" style="display: none;">
+                <div class="alert-content">
+                    <div class="alert-header">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <h3>Potential Duplicates Found</h3>
+                    </div>
+                    <p>We found similar bug reports. Please review them before creating a new one:</p>
+                    <div id="duplicateList" class="duplicate-list">
+                        <!-- Duplicate bugs will be listed here -->
+                    </div>
+                    <div class="alert-actions">
+                        <button class="btn btn-outline" onclick="hideDuplicateAlert()">
+                            Continue Anyway
+                        </button>
+                        <button class="btn btn-secondary" onclick="reviewDuplicates()">
+                            Review Duplicates
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bug Form -->
+            <div class="form-container">
+                <form id="bugForm" class="bug-form">
+                    <div class="form-grid">
+                        <!-- Left Column -->
+                        <div class="form-column">
+                            <div class="form-group">
+                                <label for="title" class="form-label required">Bug Title</label>
+                                <input 
+                                    type="text" 
+                                    id="title" 
+                                    name="title" 
+                                    class="form-input" 
+                                    placeholder="Brief, descriptive title of the bug"
+                                    required
+                                >
+                                <div class="form-help">Be specific and concise (e.g., "Login button not working on mobile")</div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="description" class="form-label required">Description</label>
+                                <textarea 
+                                    id="description" 
+                                    name="description" 
+                                    class="form-textarea" 
+                                    rows="6"
+                                    placeholder="Detailed description of the bug, including steps to reproduce..."
+                                    required
+                                ></textarea>
+                                <div class="form-help">Include steps to reproduce, expected vs actual behavior</div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="stepsToReproduce" class="form-label">Steps to Reproduce</label>
+                                <textarea 
+                                    id="stepsToReproduce" 
+                                    name="steps_to_reproduce" 
+                                    class="form-textarea" 
+                                    rows="4"
+                                    placeholder="1. Go to...&#10;2. Click on...&#10;3. Enter...&#10;4. Observe..."
+                                ></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="expectedBehavior" class="form-label">Expected Behavior</label>
+                                <textarea 
+                                    id="expectedBehavior" 
+                                    name="expected_behavior" 
+                                    class="form-textarea" 
+                                    rows="3"
+                                    placeholder="What should happen instead?"
+                                ></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Right Column -->
+                        <div class="form-column">
+                            <div class="form-group">
+                                <label for="priority" class="form-label required">Priority</label>
+                                <select id="priority" name="priority" class="form-select" required>
+                                    <option value="">Select Priority</option>
+                                    <option value="Low">Low - Minor issue, workaround available</option>
+                                    <option value="Medium">Medium - Moderate impact on functionality</option>
+                                    <option value="High">High - Significant impact, needs attention</option>
+                                    <option value="Critical">Critical - System unusable, urgent fix needed</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="project" class="form-label">Project</label>
+                                <select id="project" name="project_id" class="form-select">
+                                    <option value="">Select Project</option>
+                                    <!-- Projects will be loaded dynamically -->
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="assignee" class="form-label">Assign To</label>
+                                <select id="assignee" name="assignee_id" class="form-select">
+                                    <option value="">Unassigned</option>
+                                    <!-- Users will be loaded dynamically -->
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="environment" class="form-label">Environment</label>
+                                <input 
+                                    type="text" 
+                                    id="environment" 
+                                    name="environment" 
+                                    class="form-input" 
+                                    placeholder="e.g., Production, Staging, Development"
+                                >
+                            </div>
+
+                            <div class="form-group">
+                                <label for="browserInfo" class="form-label">Browser/Device Info</label>
+                                <input 
+                                    type="text" 
+                                    id="browserInfo" 
+                                    name="browser_info" 
+                                    class="form-input" 
+                                    placeholder="e.g., Chrome 91.0, iPhone 12, Windows 10"
+                                >
+                            </div>
+
+                            <div class="form-group">
+                                <label for="tags" class="form-label">Tags</label>
+                                <input 
+                                    type="text" 
+                                    id="tags" 
+                                    name="tags" 
+                                    class="form-input" 
+                                    placeholder="ui, login, mobile, api (comma-separated)"
+                                >
+                                <div class="form-help">Add relevant tags to help categorize this bug</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- File Attachments -->
+                    <div class="form-group full-width">
+                        <label for="attachments" class="form-label">Attachments</label>
+                        <div class="file-upload-area" id="fileUploadArea">
+                            <div class="file-upload-content">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <p>Drag and drop files here or <span class="upload-link">browse</span></p>
+                                <p class="upload-help">Screenshots, logs, or other relevant files (Max 10MB each)</p>
+                            </div>
+                            <input type="file" id="attachments" name="attachments[]" multiple accept="image/*,.txt,.log,.pdf,.doc,.docx" style="display: none;">
+                        </div>
+                        <div id="fileList" class="file-list"></div>
+                    </div>
+
+                    <!-- Form Actions -->
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-outline" onclick="saveDraft()">
+                            <i class="fas fa-save"></i>
+                            Save Draft
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-bug"></i>
+                            Create Bug Report
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <script src="../js/main.js"></script>
+    <script src="../js/dashboard.js"></script>
+    <script src="../js/bug-form.js"></script>
+</body>
+</html>
